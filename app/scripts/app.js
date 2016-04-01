@@ -29,7 +29,7 @@ $(function(){ // on document ready,
       type: "GET",
       dataType: "jsonp",
       cache: false,
-      url: "https://api.instagram.com/v1/tags/"+ state_name +"/media/recent?access_token=370648620.4f46f98.9ed4716de0184a9299b595e52ba248c0"
+      url: "https://api.instagram.com/v1/tags/"+ state_name +"/media/recent?access_token=370648620.4f46f98.9ed4716de0184a9299b595e52ba248c0&scope=public_content"
     }).done(function(data){
      console.log(data)
       })
