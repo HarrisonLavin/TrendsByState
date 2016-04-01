@@ -1,12 +1,9 @@
 
 
 
-
-// TO DO: this method: model.state.getPlaceId
-
 $(function(){ // on doc ready, set up my listeners
   // such that, when a user clicks on submit, we run my show action
-  $('input:submit').click(app.artist.controller.show.init)
+  $('input:submit').click(app.picture.controller.show.init)
 })
 
 app = {
@@ -36,10 +33,12 @@ app.picture = {
         state_name = $('#state_name').val()
         
         // hit my api, given a state name, get back place_id
-        app.model.state.getPlaceId(state_name).then(function(place_id){
+        var promise = app.state.model.getPlaceId(state_name).then(function(place_id){
           // given that place_id as param, hit api again, to get pictures in that state/place
+          
           app.picture.adapter.getBy(place_id).then(function(picture){
-            app.picture.controller.show.render(picture)
+            console.log(picture);
+            // app.picture.controller.show.render(picture)
           })
         })
 
@@ -59,8 +58,19 @@ app.picture = {
     }
   },
   adapter: {
-    getBy: function(name){
+    getBy: (function(name){
       return $.ajax({
+      method: "GET",
+      url: "https://api.spotify.com/v1/search?query=" + name + "&type=artist",
+      }).then(function(data){
+        var artist_data; 
+        var artist;
+        artist_data= data.artists.items[0];
+        // artist = new app.artist.model.new(artist_data.name, artist_data.popularity, artist_data.images[0])
+        return artist_data.name;
+    })
+  })
+      // return $.ajax({
       // method: "GET",
       // url: "https://api.spotify.com/v1/search?query=" + name + "&type=artist",
       // }).then(function(data){
@@ -70,19 +80,32 @@ app.picture = {
       //   artist = new app.artist.model.new(artist_data.name, artist_data.popularity, artist_data.images[0])
         
       //   return artist;
-
-      })
+      // var state = "Montagna";
+      // return state;
+      // })
     }
   }
-}
+
 
 // TO DO: this method: state.model.getPlaceId
 app.state = {
   model: {
-    getPlaceId: function(state_string){
-      //given a name, hit the api, return a place_id
-    }
-  }
+    getPlaceId: (function(name){
+      // //given a name, hit the api, return a place_id
+      // // debugger;
+      // return state_string
+      return $.ajax({
+      method: "GET",
+      url: "https://api.spotify.com/v1/search?query=" + name + "&type=artist",
+      }).then(function(data){
+        var artist_data; 
+        var artist;
+        artist_data= data.artists.items[0];
+        // artist = new app.artist.model.new(artist_data.name, artist_data.popularity, artist_data.images[0])
+        return artist_data.name;
+    })
+  })
+}
 }
 
 
