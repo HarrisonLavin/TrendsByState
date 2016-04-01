@@ -35,7 +35,6 @@ app.picture = {
         // hit my api, given a state name, get back place_id
         var promise = app.state.model.getPlaceId(state_name).then(function(place_id){
           // given that place_id as param, hit api again, to get pictures in that state/place
-          debugger;
           app.picture.adapter.getBy(place_id).then(function(picture){
             console.log(picture);
             // app.picture.controller.show.render(picture)
@@ -58,19 +57,36 @@ app.picture = {
     }
   },
   adapter: {
+    //given flickr place_id, get the flickr photo_id
     getBy: (function(place_id){
       return $.ajax({
       method: "GET",
       url: "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=5b4b928bd0103e7da3364d23b0f3e5be&place_id="+ place_id +"&format=json&nojsoncallback=1",
       }).then(function(data){
-        debugger
-        //grabs photo_id
+        //grab photo_id
         var photo_id; 
         photo_id= data.photos.photo[0].id;
-        // artist = new app.artist.model.new(artist_data.name, artist_data.popularity, artist_data.images[0])
-        return artist_data.name;
+
+        return photo_id;
+    }).then(function(photo_id){
+      //given a photo_id return the info of the photo
+      return $.ajax({
+        method: "GET",
+        url: "https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=5b4b928bd0103e7da3364d23b0f3e5be&photo_id="+ photo_id +"&format=json&nojsoncallback=1",
+      }).then(function(data){
+        //given the photo info, grab the url
+        var url;
+        url = data.photo.urls.url[0]._content
+        return url;
+      }).then(function(data){
+        //finally, fiven the url, get the embed html
+        debugger;
+      })
     })
   })
+    
+
+
       // return $.ajax({
       // method: "GET",
       // url: "https://api.spotify.com/v1/search?query=" + name + "&type=artist",
@@ -155,7 +171,10 @@ app.state = {
 
 
 
-
+// function attempt() {
+//   $.ajax("https://en.wikipedia.org/wiki/Gregor_MacGregor", function(stuff){ 
+//     console.log(stuff)});
+// }
 
 
 
