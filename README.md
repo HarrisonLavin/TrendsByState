@@ -1,2 +1,2 @@
-# byState
-Web app that shows the top posts and/or tags by state
+# TrendingPostsAndTagsByState
+Web app that shows the top Instagram posts and/or tags by state
