@@ -15,10 +15,16 @@
 //   .done(function( msg ) {
 //     alert( "Data Saved: " + msg ); // somehow append the images
 //   });
-app = {};
+app = {
+  // listController = new ListC0ntroller
+  // listController.init()
+};
 
 
 $(function(){ // on document ready,
+    var picturesController = new app.picturesController.new();
+
+
   $('input:submit').on('click', function(event){ //attach a listener to my submit, such that on click
     var state_name 
     $('.images').empty();
