@@ -78,12 +78,18 @@ app.picture = {
         var url;
         url = data.photo.urls.url[0]._content
         return url;
-      }).then(function(data){
+      }).then(function(url){
         //finally, fiven the url, get the embed html
+        $.ajax({
+          method: "GET",
+          url: "https://www.flickr.com/services/oembed/?url="+ url,
+      }).then(function(data){
         debugger;
+          })
+        })
       })
     })
-  })
+  }
     
 
 
@@ -101,7 +107,7 @@ app.picture = {
       // return state;
       // })
     }
-  }
+
 
 
 // TO DO: this method: state.model.getPlaceId
