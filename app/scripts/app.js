@@ -15,19 +15,20 @@
 //   .done(function( msg ) {
 //     alert( "Data Saved: " + msg ); // somehow append the images
 //   });
-app = {}
+app = {};
 
 
 $(function(){ // on document ready,
   $('input:submit').on('click', function(event){ //attach a listener to my submit, such that on click
-    var artist_name 
+    var state_name 
     $('.images').empty();
     event.preventDefault(); // we prevent default
-    artist_name = $('#artist_name').val() // we get the artist name
-    $('#artist_name').val(''); 
+    state_name = $('#state_name').val() // we get the artist name
+    $('#state_name').val(''); 
     $.ajax({
       method: "POST",
-      url: "https://api.spotify.com/v1/search?query=" + artist_name + "&type=artist",
+      url: "https://api.instagram.com/v1/tags/"+ state_name +"/media/recent?access_token=ACCESS_TOKEN"
+,
 
     }).done(function(data){
       data.artists.items[0].images.forEach(function(element){

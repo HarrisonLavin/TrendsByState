@@ -1,15 +1,17 @@
-app.posts= {
+app.tags={
   all: [],
   new: (function(){
     var counter = 0;
-    var post = function(state, likes, instaID){
+    var tag = function(state,){
       this.state= state;
       this.instaID= instaID;
-      this.likes= likes;
+      this.posts= (function(){
+        return [];
+      })
       this.id= ++counter;
-      app.posts.all.push(this)
+      app.tags.all.push(this)
     }(); 
   }
-    return post;
+    return tag;
   }())
 }
