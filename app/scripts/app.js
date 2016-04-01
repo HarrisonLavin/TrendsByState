@@ -20,27 +20,59 @@ app = {
   // listController.init()
 };
 
+function addListeners(){
+  $('body').on("submit", function(event) {
+    event.preventDefault();
+    
+    var state_name = $('#state_name').val();
+    $('#state_name').val("");
+
+
+  })
+}
+
 
 $(function(){ // on document ready,
-    var picturesController = new app.picturesController.new();
-
-
-  $('input:submit').on('click', function(event){ //attach a listener to my submit, such that on click
-    var state_name 
-    $('.images').empty();
-    event.preventDefault(); // we prevent default
-    state_name = $('#state_name').val() // we get the artist name
-    $('#state_name').val(''); 
-    $.ajax({
-      type: "GET",
-      dataType: "jsonp",
-      cache: false,
-      url: "https://api.instagram.com/v1/tags/"+ state_name +"/media/recent?access_token=370648620.4f46f98.9ed4716de0184a9299b595e52ba248c0&scope=public_content"
-    }).done(function(data){
-     console.log(data)
-      })
+  var state_name;
+  
+  (function(){
+    $('body').on("submit", function(event) {
+      event.preventDefault();
+    
+      var input = $('#state_name').val();
+      $('#state_name').val("");
+      state_name = input;
     })
+
+    console.log(state_name);
+
+  }())
+
+    
+    // var picturesController = new app.picturesController.new();
+    // (function(){
+    //   $('#state_name').on("submit", )//do something)
+    // })
+
   })
+
+  
+  // $('input:submit').on('click', function(event){ //attach a listener to my submit, such that on click
+  //   var state_name 
+  //   $('.images').empty();
+  //   event.preventDefault(); // we prevent default
+  //   state_name = $('#state_name').val() // we get the artist name
+  //   $('#state_name').val(''); 
+  //   $.ajax({
+  //     type: "GET",
+  //     dataType: "jsonp",
+  //     cache: false,
+  //     url: "https://api.instagram.com/v1/tags/"+ state_name +"/media/recent?access_token=370648620.4f46f98.9ed4716de0184a9299b595e52ba248c0&scope=public_content"
+  //   }).done(function(data){
+  //    console.log(data)
+  //     })
+  //   })
+  // })
 
 // https://api.spotify.com/v1/search?query=tania&type=artist
 // https://www.reddit.com/r/funny.json
