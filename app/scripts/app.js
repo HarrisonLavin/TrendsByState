@@ -35,7 +35,7 @@ app.picture = {
         // hit my api, given a state name, get back place_id
         var promise = app.state.model.getPlaceId(state_name).then(function(place_id){
           // given that place_id as param, hit api again, to get pictures in that state/place
-          
+          debugger;
           app.picture.adapter.getBy(place_id).then(function(picture){
             console.log(picture);
             // app.picture.controller.show.render(picture)
@@ -58,14 +58,15 @@ app.picture = {
     }
   },
   adapter: {
-    getBy: (function(name){
+    getBy: (function(place_id){
       return $.ajax({
       method: "GET",
-      url: "https://api.spotify.com/v1/search?query=" + name + "&type=artist",
+      url: "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=5b4b928bd0103e7da3364d23b0f3e5be&place_id="+ place_id +"&format=json&nojsoncallback=1",
       }).then(function(data){
-        var artist_data; 
-        var artist;
-        artist_data= data.artists.items[0];
+        debugger
+        //grabs photo_id
+        var photo_id; 
+        photo_id= data.photos.photo[0].id;
         // artist = new app.artist.model.new(artist_data.name, artist_data.popularity, artist_data.images[0])
         return artist_data.name;
     })
@@ -90,19 +91,17 @@ app.picture = {
 // TO DO: this method: state.model.getPlaceId
 app.state = {
   model: {
-    getPlaceId: (function(name){
+    getPlaceId: (function(stateName){
       // //given a name, hit the api, return a place_id
       // // debugger;
       // return state_string
       return $.ajax({
       method: "GET",
-      url: "https://api.spotify.com/v1/search?query=" + name + "&type=artist",
+      url: "https://api.flickr.com/services/rest/?method=flickr.places.find&api_key=5b4b928bd0103e7da3364d23b0f3e5be&query="+ stateName +"+state&format=json&nojsoncallback=1",
       }).then(function(data){
-        var artist_data; 
-        var artist;
-        artist_data= data.artists.items[0];
-        // artist = new app.artist.model.new(artist_data.name, artist_data.popularity, artist_data.images[0])
-        return artist_data.name;
+        var place_id = data.places.place[0].place_id;
+        //new app.model.states.new(place_id)
+        return place_id;
     })
   })
 }
